@@ -4,9 +4,8 @@ import os
 import asyncio
 
 pygame.init()
-INFO = pygame.display.Info()
-W, H = INFO.current_w, INFO.current_h
-w = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+W, H = 1920, 1080
+w = pygame.display.set_mode((W, H))
 running = True
 clock = pygame.time.Clock()
 maxfps = 60
@@ -482,7 +481,7 @@ async def main():
         events(dt)
         draw(dt)
         await asyncio.sleep(0)
-        
+
 asyncio.run(main())
 pygame.quit()
 asyncio.run(main())
