@@ -4,23 +4,24 @@ import os
 import asyncio
 
 pygame.init()
-Info = pygame.display.Info()
-W, H = 1920, 1080
+# Use a slightly smaller fixed resolution for better compatibility
+W, H = 1280, 720 
 w = pygame.display.set_mode((W, H))
+
 running = True
 clock = pygame.time.Clock()
 maxfps = 60
 gui = 0
+
+# Initialize fonts
 font1 = pygame.font.SysFont(None, 50)
 font2 = pygame.font.SysFont(None, 35)
 font3 = pygame.font.SysFont(None, 20)
-mx, my = 0, 0
-cache = {}
-with open("templates.json", "r") as f:
-    full = json.load(f)
-    towerTemp = full["towers"]
-    enemyTemp = full["enemies"]
-    route = full["route"]
+
+# Declare these as None or empty initially
+towerTemp = {}
+enemyTemp = {}
+route = {}
 
 class Base:
     def __init__(self):
@@ -475,15 +476,38 @@ def draw(dt):
     pygame.display.flip()
 
 async def main():
-    global running 
+    global running, towerTemp, enemyTemp, route, game, base
+    
+    # 1. Load JSON inside the async function
+    try:
+        with open("templates.json", "r") as f:
+            full = json.load(f)
+            towerTemp = full["towers"]
+            enemyTemp = full["enemies"]
+            route = full["route"]
+    except Exception as e:
+        print(f"JSON Load Error: {e}")
+        # Create a dummy route to prevent crashing if file fails
+        route = {"wave1": []} 
+
+    # 2. Re-initialize game objects to ensure they see the loaded route
+    game = Game()
+    base = Base()
+
+    # 3. The Main Loop
     while running:
+        # Calculate delta time
         dt = clock.tick(maxfps) / 1000.0
+        
+        # Run game steps
         game.next_ev(dt)
         events(dt)
         draw(dt)
+        
+        # Yield to the browser
         await asyncio.sleep(0)
 
-asyncio.run(main())
+# Run once and ONLY once
+if __name__ == "__main__":
+    asyncio.run(main())
 pygame.quit()
-
-#a
