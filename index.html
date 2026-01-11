@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noxacy & Huzeyfe's Arcade</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3553688527206955" crossorigin="anonymous"></script>
+    
     <style>
         :root {
             --bg-color: #0f1015;
@@ -24,15 +26,10 @@
             align-items: center;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            letter-spacing: -1px;
-        }
+        h1 { font-size: 2.5rem; margin-bottom: 40px; letter-spacing: -1px; }
 
         .arcade-container {
             display: grid;
-            /* This creates the classic CrazyGames dense grid */
             grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             gap: 20px;
             width: 100%;
@@ -57,9 +54,25 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 15px var(--accent-color);
         }
 
-        .game-card:hover .thumbnail {
-            transform: scale(1.1); /* Slight zoom when hovering */
+        .thumbnail {
+            width: 100%;
+            height: 100%;
+            background-color: #222;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s ease;
         }
+
+        /* Fix to make sure your <img> inside thumbnail fits correctly */
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-card:hover .thumbnail { transform: scale(1.1); }
 
         .game-info {
             padding: 12px;
@@ -68,18 +81,11 @@
             bottom: 0;
             width: 100%;
             box-sizing: border-box;
+            z-index: 3;
         }
 
-        .game-info h3 {
-            margin: 0;
-            font-size: 1.1rem;
-        }
-
-        .game-info p {
-            margin: 4px 0 0;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-        }
+        .game-info h3 { margin: 0; font-size: 1.1rem; }
+        .game-info p { margin: 4px 0 0; font-size: 0.85rem; color: var(--text-dim); }
 
         .badge {
             position: absolute;
@@ -93,51 +99,36 @@
             text-transform: uppercase;
             z-index: 2;
         }
-
-        .thumbnail {
-            width: 100%;
-            height: 100%;
-            background-color: #222; /* Fallback color */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255,255,255,0.2); /* Faded text if no image */
-            font-size: 1.5rem;
-            font-weight: bold;
-            transition: transform 0.5s ease;
-        }
-
-        .game-card:hover .thumbnail {
-            transform: scale(1.1); /* Slight zoom when hovering */
-        }
     </style>
 </head>
 <body>
-
     <h1>Noxacy & Huzeyfe's Arcade</h1>
-
     <div class="arcade-container">
         <a href="td/td_play.html" class="game-card">
             <div class="badge">Hot</div>
-            <div class="thumbnail">
-                <img src="td/thumbnail.png">
-            </div>
+            <div class="thumbnail"><img src="td/thumbnail.png"></div>
             <div class="game-info">
                 <h3>Tower Defense</h3>
                 <p>Strategy • Action</p>
             </div>
         </a>
-
         <a href="#" class="game-card" style="opacity: 0.6; cursor: default;">
-            <div class="thumbnail">
-                <img src="shrek.png" height="150">
-            </div>
+            <div class="thumbnail"><img src="shrek.png"></div>
             <div class="game-info">
                 <h3>Next Project</h3>
-                <p>Development in progress</p>
+                <p>Coming Soon</p>
             </div>
         </a>
     </div>
+
+<footer style="margin-top: 50px; padding: 20px; text-align: center; border-top: 1px solid #1b1c22; width: 100%;">
+    <p style="color: #666; font-size: 0.8rem;">
+        &copy; 2026 Noxacy & Huzeyfe Arcade | 
+        <a href="about.html" style="color: #666; text-decoration: none;">About Us</a> |
+        <a href="privacy.html" style="color: #666; text-decoration: none;">Privacy Policy</a> | 
+        <a href="terms.html" style="color: #666; text-decoration: none;">Terms of Service</a>
+    </p>
+</footer>
 
 </body>
 </html>
