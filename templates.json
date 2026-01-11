@@ -232,7 +232,7 @@
             "size": 30,
             "color": "#3a318f",
             "speed": 55,
-            "attributes": {"death_spawn": ["Normal", "Swift", "Heavy",  "Leader", "Shadow"]}
+            "attributes": {"death_spawn": ["Heavy", "Heavy",  "Leader", "Shadow", "Shadow"]}
         },
         "Healthy":
         {
