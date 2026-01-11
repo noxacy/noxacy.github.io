@@ -8,6 +8,7 @@ pygame.init()
 Info = pygame.display.Info()
 W, H = 1920, 1080
 w = pygame.display.set_mode((W, H))
+pygame.display.set_caption('Tower Defense')
 running = True
 clock = pygame.time.Clock()
 maxfps = 60
