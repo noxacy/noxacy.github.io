@@ -43,14 +43,28 @@ class BlastProjectile:
         self.radius = blastradius
         self.dmg = damage
         self.size = size
-        dx = targetx - currentx
-        dy = targety - currenty
-        length = (dx*2 + dy*2)**0.5
+        self.dx = targetx - self.pos[0]
+        self.dy = targety - self.pos[1]
+        length = (self.dx*2 + self.dy*2)**0.5
         if length != 0:
             self.dir = (dx/length, dy/length)
-    
-    def update(self, dt):
+        else:
+            self.dir = (0, 0)
+
+    def boom(self):
         pass
+
+    def update(self, dt):
+        self.pos = (
+            self.dir[0] * speed * dt,
+            self.dir[1] * speed * dt
+        )
+        self.dx = targetx - self.pos[0]
+        self.dy = targety - self.pos[1]
+        length = (self.dx*2 + self.dy*2)**0.5
+        if length < 1:
+            self.boom()
+
 class Game:
     def __init__(self):
         global gui, route
@@ -157,13 +171,15 @@ class Enemy:
             self.nt = False
             self.process = 0
             self.hidden = full.get("hidden", False)
-            
+            self.death_spawn_quantity = 1
             self.attributes = full.get("attributes", {})
             self.spawn_timer = 0
             self.spawn_queue = 0
             self.spawn_delay_timer = 0
             if "spawn" in self.attributes:
                 self.spawn_timer = self.attributes["spawn"]["cooldown"]
+            if "quantity" in self.attributes:
+                self.death_spawn_quantity = self.attributes["quantity"]
         else:
             raise ValueError(f"\"{enemy}\" enemy is not in enemy templates.")
 
@@ -226,8 +242,16 @@ class Enemy:
                 new_enemy.idx = self.idx
                 new_enemy.process = self.process
                 enemies.append(new_enemy)
+            if "quantity" in self.attributes:
+                for i in range(self.death_spawn_quantity):
+                    new_enemy = Enemy("Goo")
+                    new_enemy.x, new_enemy.y = self.x, self.y
+                    new_enemy.idx = self.idx
+                    new_enemy.process = self.process
+                    enemies.append(new_enemy)
             if self in enemies:
                 enemies.remove(self)
+
 phtower = 0
 placing_tower = False
 
@@ -333,6 +357,7 @@ class Tower:
 
 towers = []
 enemies = []
+temporar
 shop_button_rect = pygame.Rect(W/128, H-H/9, W/5.5, H/10)
 skip_wave_rect = pygame.Rect(0,0,W/19.2,H/10.8)
 skip_wave_rect.center=(W/128*125.2-W/19.2,H/72*65-H/10.8) 
