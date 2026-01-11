@@ -18,8 +18,26 @@
         .container { display: grid; grid-template-columns: 1fr 800px 300px; gap: 20px; padding: 20px; max-width: 1400px; }
 
         /* The Game Box */
-        .game-wrapper { grid-column: 2; background: #000; border-radius: 8px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.5); position: relative; }
-        iframe { width: 800px; height: 600px; border: none; display: block; }
+        /* Update these specific sections in your <style> tag */
+
+        .game-wrapper { 
+            grid-column: 2; 
+            background: #000; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+            position: relative; 
+            /* This ensures the wrapper maintains the game's aspect ratio */
+            aspect-ratio: 16 / 9; 
+            width: 100%; 
+        }
+
+        iframe { 
+            width: 100%;  /* Changed from 800px */
+            height: 100%; /* Changed from 600px */
+            border: none; 
+            display: block; 
+        }
 
         /* Image Gallery */
         .image-gallery { grid-column: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
