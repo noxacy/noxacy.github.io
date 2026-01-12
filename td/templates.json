@@ -64,7 +64,7 @@
                     "firerate": 0.08,
                     "name": "Both hands",
                     "desc": "Faster shooting speed",
-                    "price": 11500
+                    "price": 10000
                 } 
             ]
         },
@@ -313,7 +313,7 @@
         },
         "CEO":
         {
-            "maxhealth": 2500,
+            "maxhealth": 3500,
             "size": 100,
             "color": "#0d210d",
             "speed": 10
@@ -450,8 +450,8 @@
         ,
         "wave19":
         [
-            {"name": "Shadow", "quantity": 10, "cooldown": 3},
-            {"name": "Myth", "quantity": 10, "cooldown": 3},
+            {"name": "Shadow", "quantity": 10, "cooldown": 1},
+            {"name": "Myth", "quantity": 10, "cooldown": 1},
             {"name": "Healthy", "quantity": 3, "cooldown": 5},
             [75,750]
         ]
@@ -485,8 +485,8 @@
         ,
         "wave24":
         [
-            {"name": "Shadow", "quantity": 10, "cooldown": 3},
-            {"name": "Healthy", "quantity": 10, "cooldown": 5},
+            {"name": "Shadow", "quantity": 10, "cooldown": 1},
+            {"name": "Healthy", "quantity": 10, "cooldown": 3},
             {"name": "Witch", "quantity": 3, "cooldown": 5},
             [70,750]
         ]
