@@ -35,20 +35,43 @@
             width: 100%;
             max-width: 1200px;
         }
-
+        
+            /* Ortak Kart Efektleri (Hover ve Parlama) */
         .game-card {
             background-color: var(--card-bg);
             border-radius: 12px;
             overflow: hidden;
             text-decoration: none;
             color: white;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             display: flex;
             flex-direction: column;
-            /* Remove aspect-ratio if it's cutting off the bottom, 
-            or keep it if you want fixed-size cards */
-            height: 100%; 
+            border: 1px solid #333;
+        }
+
+        /* Üzerine gelince kartın parlaması ve büyümesi */
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 10px 30px rgba(122, 47, 255, 0.3);
+            border-color: #7a2fff;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+
+        /* Resmin hafif büyüme efekti */
+        .game-card:hover .thumbnail img {
+            transform: scale(1.1);
+        }
+
+        /* Badge parlaması */
+        .badge {
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
 
         .thumbnail {
@@ -100,15 +123,29 @@
 <body>
     <h1>Noxacy & Huzeyfe's Arcade</h1>
     <div class="arcade-container">
-        <a href="td/td_play.html" class="game-card">
-            <div class="badge" style="background-color: #d67813;">Hot</div>
-            <div class="thumbnail"><img src="td/thumbnail.png"></div>
+        <a href="aclicker/clicker_play.html" class="game-card" style="box-shadow: inset 0 0 20px rgba(42, 104, 174, 0.1);">
+            <div class="badge" style="background-color: #2a68ae;">New</div>
+            <div class="thumbnail">
+                <img src="aclicker/thumbnail.png" style="padding: 15px;">
+            </div>
             <div class="game-info">
-                <h3>Tower Defense</h3>
+                <h3 style="color: #45f3ff;">Akif Clicker</h3>
+                <p>Incremental • Clicker</p>
+            </div>
+        </a>
+
+        <a href="td/td_play.html" class="game-card" style="box-shadow: inset 0 0 20px rgba(214, 120, 19, 0.1);">
+            <div class="badge" style="background-color: #d67813;">Hot</div>
+            <div class="thumbnail">
+                <img src="td/thumbnail.png" style="padding: 5px;">
+            </div>
+            <div class="game-info">
+                <h3 style="color: #ff9d00;">Tower Defense</h3>
                 <p>Strategy • Action</p>
             </div>
         </a>
-        <a href="#" class="game-card" style="opacity: 0.6; cursor: default;">
+
+        <a href="#" class="game-card" style="opacity: 0.4; cursor: default; filter: grayscale(1);">
             <div class="thumbnail"><img src="shrek.png"></div>
             <div class="game-info">
                 <h3>Next Project</h3>
