@@ -519,6 +519,8 @@ def events(dt):
                 if enemy:
                     if enemy.rect.collidepoint((mx, my)):
                         game.cached_draw(w, font1, f"{enemy.hp} / {enemy.maxhp}", "#ffffff", (mx, my), False)
+            if shop_button_rect.collidepoint((mx, my)):
+                pygame.draw.rect(w, "#ff3c3c", shop_button_rect)
 
 def draw(dt):
     global selected

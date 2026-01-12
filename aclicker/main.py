@@ -237,7 +237,7 @@ async def main():
                 ur = pygame.Rect(ux + (count%3)*115, uy + (count//3)*115, 100, 100)
                 img = smallboximg.copy()
                 if ur.collidepoint(m_pos): 
-                    is_h = True; h_upg = u; img.fill((60, 60, 60), special_flags=pygame.BLEND_RGB_ADD)
+                    is_h = True; h_upg = u; img.fill((30, 30, 30), special_flags=pygame.BLEND_RGB_ADD)
                 screen.blit(img, ur); count += 1
                 if count >= 9: break
 
