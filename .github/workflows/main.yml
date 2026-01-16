@@ -55,8 +55,9 @@ jobs:
                 echo "Patching index.html for userAgentData fix"
 
                 sed -i '1{/^<!DOCTYPE html>/!s/^/<!DOCTYPE html>\n/}' "$INDEX"
-                sed -i '/pythons.js/i \ <script>\nif(!navigator.userAgentData){navigator.userAgentData={mobile:false};}\n</script>' "$INDEX"
-              fi
+                # navigator.userAgentData FIX (KESİNLİKLE <head> içine)
+                sed -i '/<head>/a \
+                <script>\nif(!navigator.userAgentData){navigator.userAgentData={mobile:false};}\n</script>' "$INDEX"
 
               # Klasördeki görselleri de kopyala
               cp "$dirname"/*.png "deploy/$dirname/" 2>/dev/null || true
