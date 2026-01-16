@@ -72,10 +72,10 @@ jobs:
                 # ilk satır: DOCTYPE, sonra navigator patch, sonra orijinal index
                 echo "<!DOCTYPE html>" > "$TMP_FILE"
                 echo "<script>
-if (typeof navigator.userAgentData === 'undefined') {
-    navigator.userAgentData = { mobile: false };
-}
-</script>" >> "$TMP_FILE"
+                if (typeof navigator.userAgentData === 'undefined') {
+                    navigator.userAgentData = { mobile: false };
+                }
+                </script>" >> "$TMP_FILE"
 
                 # Orijinal index'i ekle, head tag’ini bulmadan ekle
                 tail -n +1 "$INDEX_FILE" >> "$TMP_FILE"
