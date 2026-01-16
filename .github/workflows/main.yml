@@ -61,13 +61,13 @@ jobs:
                 TMP_FILE="$INDEX_FILE.tmp"
                 echo "<!DOCTYPE html>" > "$TMP_FILE"
                 echo "<script>
-if (typeof navigator.userAgentData === 'undefined') {
-    navigator.userAgentData = { mobile: false };
-}
-window.addEventListener('load', () => {
-    if (typeof py_init === 'function') { py_init(); }
-});
-</script>" >> "$TMP_FILE"
+                if (typeof navigator.userAgentData === 'undefined') {
+                    navigator.userAgentData = { mobile: false };
+                }
+                window.addEventListener('load', () => {
+                    if (typeof py_init === 'function') { py_init(); }
+                });
+                </script>" >> "$TMP_FILE"
                 tail -n +1 "$INDEX_FILE" >> "$TMP_FILE"
                 mv "$TMP_FILE" "$INDEX_FILE"
               fi
