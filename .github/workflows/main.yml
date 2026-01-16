@@ -13,10 +13,10 @@ jobs:
     steps: 
       - uses: actions/checkout@v3
 
-      - name: Set up Python 3.11
+      - name: Set up Python 3.12
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
@@ -44,17 +44,10 @@ jobs:
               echo "Building game in folder: $dirname"
 
               # Build game
-              python -m pygbag --build "$dirname/"
+              python -m pygbag --build --autorun "$dirname/"
 
               mkdir -p "deploy/$dirname"
               cp -r "$dirname/build/web/"* "deploy/$dirname/"
-
-              # Patch JS otomatik olarak
-              PATCH_FILE="deploy/$dirname/index.html"
-              if [ -f "$PATCH_FILE" ]; then
-                sed -i '1i <!DOCTYPE html>' "$PATCH_FILE"
-                sed -i "/<\/body>/i <script>\nif(typeof navigator.userAgentData==='undefined'){navigator.userAgentData={mobile:false};}\nwindow.addEventListener('load',()=>{if(typeof py_init==='function'){py_init();}});\n</script>" "$PATCH_FILE"
-              fi
 
               # Klasördeki görselleri de kopyala
               cp "$dirname"/*.png "deploy/$dirname/" 2>/dev/null || true
