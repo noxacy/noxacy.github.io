@@ -249,16 +249,14 @@
                 }
             ]
         },
-        "Orchard":
-        {
-            "damage": 100,
+        "Orchard": {
+            "damage": 100, 
             "range": 0,
             "firerate": 0,
             "color": "#11ff00",
             "cost": 600,
             "attributes": {"money_tower": true},
-            "upgrades":
-            [
+            "upgrades": [
                 {
                     "name": "More fruits",
                     "desc": "Increases income",
@@ -269,7 +267,19 @@
                     "name": "More veggies",
                     "desc": "Increases income",
                     "price": 1500,
-                    "damage": 300
+                    "damage": 450
+                },
+                {
+                    "name": "Global Export",
+                    "desc": "Massive income boost",
+                    "price": 5000,
+                    "damage": 1200
+                },
+                {
+                    "name": "Golden Harvest",
+                    "desc": "The ultimate farm",
+                    "price": 12000,
+                    "damage": 3500
                 }
             ]
         },
