@@ -274,29 +274,29 @@
             ]
         },
         "Turret": {
-            "damage": 10,
-            "firerate": 1.5,
+            "damage": 7,
+            "firerate": 2.2,
             "range": 400,
             "color": "#4a4a4a",
-            "cost": 1100,
+            "cost": 1250,
             "upgrades": [
                 {
                     "name": "Caliber Up",
                     "desc": "Increased damage",
-                    "price": 800,
-                    "damage": 25
+                    "price": 1200,
+                    "damage": 15
                 },
                 {
                     "name": "Twin Barrel",
-                    "desc": "Faster firing",
-                    "price": 1500,
-                    "firerate": 0.8
+                    "desc": "Improved gears",
+                    "price": 1800,
+                    "firerate": 1.4
                 },
                 {
                     "name": "Heavy Ordnance",
-                    "desc": "Massive damage for bosses",
-                    "price": 4000,
-                    "damage": 80
+                    "desc": "Anti-Armor Shells",
+                    "price": 5500,
+                    "damage": 55
                 }
             ]
         },
