@@ -163,9 +163,8 @@ class Game:
             self.waittime = 0
 
     def game_over(self):
-        global gui
+        global gui, running
         gui = 5
-        pygame.quit()
         running = False
 
     def inc_money(self, amount):
