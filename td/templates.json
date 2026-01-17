@@ -197,7 +197,7 @@
             "damage": 3,
             "range": 300,
             "firerate": 4,
-            "color": "#ffffff",
+            "color": "#ff7f00",
             "cost": 800,
             "blastradius": 150,
             "attributes": {"damage_type": "splash"},
@@ -254,7 +254,7 @@
             "damage": 100,
             "range": 0,
             "firerate": 0,
-            "color": "#ffffff",
+            "color": "#11ff00",
             "cost": 600,
             "attributes": {"money_tower": true},
             "upgrades":

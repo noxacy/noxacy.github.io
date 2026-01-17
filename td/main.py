@@ -83,7 +83,7 @@ class Game:
     def __init__(self):
         global gui, route
         self.map = [(W/4, H), (W/4, H/5), (W/4*3, H/5), (W/4*3, H/5*4), (W/2, H/5*4), (W/2, H/5*2), (W, H/5*2)]
-        self.money = 5500
+        self.money = 550
         self.text_cache = {}
         self.waittime = 0
         self.quant = 0
@@ -95,6 +95,9 @@ class Game:
         self.last_tap_time = 0
         self.double_tap_threshold = 0.3  # Seconds
         self.touch_start_y = 0
+        self.speed_multiplier = 1
+        self.speed_button_rect = pygame.Rect(W - 150, H - 80, 120, 60)
+        self.targeting_button_rect = pygame.Rect(W/8, (H/5)*3.5, (W/4)*3, (H/16))
 
     def get_ev(self):
         tmp = route[f"wave{self.wave}"]
@@ -108,6 +111,8 @@ class Game:
 
     def next_ev(self, dt):
         if self.end:
+            global gui
+            gui = 4
             return
         if self.waittime <= 0:
             if self.ev == -1:
@@ -157,7 +162,7 @@ class Game:
 
     def game_over(self):
         global gui
-        gui = 3
+        gui = 5
 
     def inc_money(self, amount):
         self.money += amount
@@ -324,7 +329,7 @@ class Tower:
             self.nextupgradeprice = self.upgs[self.lvl]["price"]
             self.totaldmg = 0
             self.cost = full["cost"]
-            self.sellprice = self.cost
+            self.sellprice = self.cost*0.7
             self.maxlvl = len(self.upgs)
             self.aoeangle = full.get("aoeangle", 0)
             self.angle = 0  # Kulenin o an baktığı yön
@@ -350,7 +355,7 @@ class Tower:
         if "detection" in mustupgrade:
             self.hidden = mustupgrade["detection"]
         self.lvl += 1
-        self.sellprice += int(self.nextupgradeprice/1.5)
+        self.sellprice += int(mustupgrade["price"]*0.7)
         if self.lvl != self.maxlvl:
             self.nextupgradeprice = self.upgs[self.lvl]["price"]
 
@@ -472,7 +477,7 @@ def events(dt):
             curr_time = pygame.time.get_ticks() / 1000.0
             
             if gui == 1: # Start scroll tracking
-                self.touch_start_y = ty
+                game.touch_start_y = ty
                 # Check for shop selection
                 relative_mpos = (tx - shop_rect.x, ty - shop_rect.y)
                 for tower_button in shop_button_copies:
@@ -547,6 +552,9 @@ def events(dt):
                         elif tusoffset.collidepoint(e.pos):
                             selected.sell()
                             gui = 0
+                    elif game.targeting_button_rect.move(towerupgradespos).collidepoint(e.pos):
+                    # Toggle between modes
+                        selected.mode = "strongest" if selected.mode == "first" else "first"
                     else:
                         for i, t in enumerate(towers):
                             if t.rect.collidepoint(e.pos):
@@ -554,6 +562,9 @@ def events(dt):
                                 selected = t
                                 return
                         gui = 0
+                if game.speed_button_rect.collidepoint(e.pos):
+                    # Cycle through 1x -> 2x -> 3x -> 1x
+                    game.speed_multiplier = game.speed_multiplier + 1 if game.speed_multiplier < 3 else 1
         elif e.type == pygame.MOUSEWHEEL:
             if e.y > 0:
                 shopy -= 35
@@ -664,6 +675,9 @@ def draw(dt):
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND) 
         towerupgradesurf.fill("#4a4a4a")
         game.cached_draw(towerupgradesurf, font1, selected.name, "#000000", (UW/2, UH/5), True)
+        # Targeting Toggle Button
+        pygame.draw.rect(towerupgradesurf, "#5555ff", game.targeting_button_rect)
+        game.cached_draw(towerupgradesurf, font2, f"Target: {selected.mode.upper()}", "#ffffff", game.targeting_button_rect.center, True)
         if selected.lvl != selected.maxlvl:
             game.cached_draw(towerupgradesurf, font2, selected.upgs[selected.lvl]["name"], "#000000", (UW/2, (UH/5)*1.5), True)
             game.cached_draw(towerupgradesurf, font2, selected.upgs[selected.lvl]["desc"], "#000000", (UW/2, (UH/5)*2), True)
@@ -706,6 +720,21 @@ def draw(dt):
             p2 = (selected.rect.centerx + r * math.cos(math.radians(end_angle)), 
                 selected.rect.centery - r * math.sin(math.radians(end_angle)))
             pygame.draw.line(w, "#ffff00", selected.rect.center, p2, 5)
+    elif gui == 4: # VICTORY SCREEN
+        s = pygame.Surface((W, H), pygame.SRCALPHA)
+        s.fill((0, 150, 0, 180)) # Semi-transparent green
+        w.blit(s, (0,0))
+        game.cached_draw(w, font1, "VICTORY!", "#ffffff", (W/2, H/2 - 50), True)
+        game.cached_draw(w, font2, f"The Singularity has been contained. Final Funds: {game.money}$", "#ffffff", (W/2, H/2 + 20), True)
+        game.cached_draw(w, font3, "Press ESC to Quit", "#ffffff", (W/2, H/2 + 80), True)
+
+    elif gui == 5: # FAIL SCREEN
+        s = pygame.Surface((W, H), pygame.SRCALPHA)
+        s.fill((150, 0, 0, 180)) # Semi-transparent red
+        w.blit(s, (0,0))
+        game.cached_draw(w, font1, "BASE DESTROYED", "#ffffff", (W/2, H/2 - 50), True)
+        game.cached_draw(w, font2, f"You reached Wave {game.wave}", "#ffffff", (W/2, H/2 + 20), True)
+        game.cached_draw(w, font3, "Press ESC to Quit", "#ffffff", (W/2, H/2 + 80), True)
 # --- BOSS HP BAR ADJUSTMENT ---
     for e in enemies:
         if e.name == "The Singularity":
@@ -720,6 +749,9 @@ def draw(dt):
             pygame.draw.rect(w, (200, 0, 0), (bar_x, bar_y, fill, bar_height))
             # Text
             game.cached_draw(w, font2, f"FINAL BOSS: {int(e.hp)} / {e.maxhp}", "#ffffff", (W//2, bar_y + 20), True)
+# Speed Button
+    pygame.draw.rect(w, "#333333", game.speed_button_rect)
+    game.cached_draw(w, font2, f"{game.speed_multiplier}x Speed", "#ffffff", game.speed_button_rect.center, True)
     game.cached_draw(w, font1, f"{game.money}$", "#00ff00", (W/2, 50), True)
     game.cached_draw(w, font1, f"Wave: {game.wave}", "#00ff00", (W- W/6, 50), True)
     game.cached_draw(w, font1, f"Health: {base.hp} / {base.maxhp}", "#00ff00", (W/6, 50), True)
@@ -732,8 +764,8 @@ async def main():
         import js
         js.window.eval("window.is_background_active = true;")
     while running:
-        dt = clock.tick(maxfps) / 1000.0
-        dt = min(dt, 0.1) 
+        dt = (clock.tick(maxfps) / 1000.0) * game.speed_multiplier
+        dt = min(dt, 0.2)
         game.next_ev(dt)
         events(dt)
         draw(dt)
